@@ -19,14 +19,14 @@ source env/bin/activate
 docker-compose up -d
 ```
 
-## web app
+## Run web app
 ```
 source env/bin/activate
 python manage.py runserver 0.0.0.0:8000
 ```
 
 
-## migrate data
+## migrate schema
 ```
 python manage.py migrate
 ```
@@ -37,7 +37,7 @@ python manage.py migrate
 celery -A news_collection worker -l info
 ```
 
-## run celery beat
+## Run celery beat
 ```
 celery -A news_collection beat -l INFO
 ```
