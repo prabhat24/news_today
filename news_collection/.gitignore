@@ -1,0 +1,7 @@
+.idea/
+*.sqlite3
+Pipfile
+prod.env
+**.txt
+.DS_Store
+**.pyc
