@@ -4,7 +4,51 @@ services:
     esearch:
         container_name: search
         image: elasticsearch:7.14.2
+        networks:
+            - elk-net
         environment:
         - discovery.type=single-node
         ports:
         - "9200:9200"
+    
+    kibana:
+        container_name: kibana
+        image: docker.elastic.co/kibana/kibana:7.4.0
+        restart: always
+        networks:
+            - elk-net
+        environment:
+         - ELASTICSEARCH_HOSTS=http://search:9200
+        ports:
+         - "5601:5601"
+        depends_on:
+         - esearch
+    
+    # logstash:
+    #     container_name: logstash
+    #     image: docker.elastic.co/logstash/logstash:8.3.3
+    #     links:
+    #      - esearch
+    #     volumes:
+    #      - ./:/config-dir
+    #     command: logstash -f /config-dir/logstash.conf
+    #     depends_on:
+    #      - esearch
+        
+
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        container_name: 'rabbitmq'
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+            - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+        networks:
+            - elk-net
+
+
+networks:
+  elk-net:
+    driver: bridge

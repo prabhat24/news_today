@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'news'
+    'news',
+    'django_elasticsearch_dsl',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -130,9 +132,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
     'UNAUTHENTICATED_USER': None,
+    'DEFAULT_PAGINATION_CLASS': "rest_framework.pagination.LimitOffsetPagination",
+    'PAGE_SIZE': 10
 }
 
 ELASTIC_SEARCH = {
     'HOST': 'localhost',
     'PORT': '9200' 
+}
+
+ELASTICSEARCH_DSL = {
+    "default": {"hosts": "localhost:9200"}
 }
